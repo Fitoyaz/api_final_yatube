@@ -1,14 +1,19 @@
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+from rest_framework.generics import ListCreateAPIView
 from rest_framework.permissions import (IsAuthenticated,
                                         IsAuthenticatedOrReadOnly)
-from rest_framework.viewsets import ModelViewSet, BaseViewSet
+from rest_framework.viewsets import ModelViewSet, ViewSetMixin
 
 from .models import Follow, Group, Post
 from .permissions import IsAuthorOrReadOnlyPermission
 from .serializers import (CommentSerializer, FollowSerializer, GroupSerializer,
                           PostSerializer)
+
+
+class BaseViewSet(ViewSetMixin, ListCreateAPIView):
+    pass
 
 
 class PostViewSet(ModelViewSet):
