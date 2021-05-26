@@ -1,9 +1,9 @@
 from django.shortcuts import get_object_or_404
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import filters, viewsets
+from rest_framework import filters
 from rest_framework.permissions import (IsAuthenticated,
                                         IsAuthenticatedOrReadOnly)
-from rest_framework.viewsets import ModelViewSet
+from rest_framework.viewsets import ModelViewSet, BaseViewSet
 
 from .models import Follow, Group, Post
 from .permissions import IsAuthorOrReadOnlyPermission
@@ -41,7 +41,7 @@ class CommentViewSet(ModelViewSet):
         return post.comments.all()
 
 
-class FollowViewSet(viewsets.ModelViewSet):
+class FollowViewSet(BaseViewSet):
     queryset = Follow.objects.all()
     serializer_class = FollowSerializer
     http_method_names = ['get', 'post']
@@ -56,7 +56,7 @@ class FollowViewSet(viewsets.ModelViewSet):
         return Follow.objects.filter(following=self.request.user)
 
 
-class GroupViewSet(viewsets.ModelViewSet):
+class GroupViewSet(BaseViewSet):
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
     http_method_names = ['get', 'post']
